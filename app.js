@@ -2,6 +2,7 @@
 
 var readInterval = null,
     readIndex = 0,
+    middle =0,
     preparedChunks = [],
     prefs = {
         speed: 200,
@@ -26,7 +27,7 @@ function prepare(text) {
         }
     }
 
-    var merged = false,
+    var merged = true,
         dotPattern = /.*\./;
     for(i = 0; i < words.length; i++) {
         if(word !== '') {
@@ -36,15 +37,15 @@ function prepare(text) {
                 isSentenceEnd = true;
             }
             // If a word is not longer than 3 chars, we merge it with the previous
-            if(prefs.merge && words[i].length <= 3 && !merged && i > 0) {
-                var index = preparedChunks.length - 1;
-                preparedChunks[index].text += ' ' + words[i];
-                preparedChunks[index].sentenceEnd = isSentenceEnd;
-                merged = true;
-            } else {
+          //  if(prefs.merge && words[i].length <= 3 && !merged && i > 0) {
+            //    var index = preparedChunks.length - 1;
+             //   preparedChunks[index].text += ' ' + words[i];
+              //  preparedChunks[index].sentenceEnd = isSentenceEnd;
+               // merged = true;
+          //  } else {
                 preparedChunks.push({text: words[i], sentenceEnd: isSentenceEnd});
-                merged = false;
-            }
+           //     merged = false;
+            //}
         }
     }
 
@@ -82,6 +83,21 @@ function flashWords(array) {
         readIndex++;
     }
     $('#word').html(chunk.text);
+     middle = chunk.text[Math.round((chunk.text.length - 1) / 2 )];
+
+function replaceAt(string, index, replace) {
+  return string.substring(0, index) + replace + string.substring(index + 1);
+}
+
+    element = document.querySelector('#word');
+    element.innerHTML=replaceAt(element.innerHTML,Math.round((chunk.text.length -1) /2),'<span style="color: red;">'+middle+'</span>');
+    if (chunk.text.length%2 === 0){
+         middle = chunk.text[Math.round((chunk.text.length - 1) / 2 )-1];
+    element.innerHTML=replaceAt(element.innerHTML,Math.round((chunk.text.length -1) /2)-1,'<span style="color: red;">'+middle+'</span>');
+            }
+
+
+
     $('#text-progress').attr({
         'max': preparedChunks.length,
         'value': readIndex,
