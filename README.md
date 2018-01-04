@@ -1,3 +1,4 @@
+Just added some files to be able to use it as desktop app with electron
 # Speed Reader
 
 [**Live Demo**](http://htmlpreview.github.com/?https://github.com/ofalvai/speed-reader/blob/master/speedreader.html)
